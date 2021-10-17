@@ -5,14 +5,14 @@ import (
 )
 
 type Wager struct {
-	ID                  uint `gorm:"primaryKey"`
-	TotalWagerValue     uint
-	Odds                uint
-	SellingPercentage   uint
-	SellingPrice        uint
-	CurrentSellingPrice uint
-	PercentageSold      uint
-	AmountSold          uint
+	ID                  uint32 `gorm:"primaryKey"`
+	TotalWagerValue     uint32
+	Odds                uint32
+	SellingPercentage   uint32
+	SellingPrice        float32
+	CurrentSellingPrice float32
+	PercentageSold      *uint32
+	AmountSold          *uint32
 	PlacedAt            time.Time `gorm:"autoCreateTime"`
 }
 

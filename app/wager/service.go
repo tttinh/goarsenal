@@ -11,10 +11,11 @@ type serviceImpl struct {
 
 func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error) {
 	wager := &entity.Wager{
-		TotalWagerValue:   req.TotalWagerValue,
-		Odds:              req.Odds,
-		SellingPercentage: req.SellingPercentage,
-		SellingPrice:      req.SellingPrice,
+		TotalWagerValue:     req.TotalWagerValue,
+		Odds:                req.Odds,
+		SellingPercentage:   req.SellingPercentage,
+		SellingPrice:        req.SellingPrice,
+		CurrentSellingPrice: req.SellingPrice,
 	}
 
 	if err := s.wagerRepository.AddWager(wager); err != nil {
