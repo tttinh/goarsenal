@@ -15,14 +15,14 @@ func (ctrl *controllerImpl) CreateWager(c *gin.Context) {
 
 	err = http.BindAndValid(c, &req)
 	if err != nil {
-		http.Response400(c, nil)
+		http.BadRequest(c, err.Error())
 	}
 
-	err, res := ctrl.service.CreateWager(req)
+	res, err := ctrl.service.CreateWager(req)
 
 	if err != nil {
-		http.Response400(c, nil)
+		http.BadRequest(c, err.Error())
 	} else {
-		http.Response201(c, res)
+		http.Created(c, res)
 	}
 }

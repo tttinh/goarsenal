@@ -6,17 +6,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Response400 returns bad request error.
-func Response400(c *gin.Context, data interface{}) {
-	c.JSON(http.StatusBadRequest, data)
+type errorResponse struct {
+	Error string
 }
 
-// Response200 returns success.
-func Response200(c *gin.Context, data interface{}) {
+// BadRequest returns bad request error.
+func BadRequest(c *gin.Context, errMessage string) {
+	c.JSON(http.StatusBadRequest, errorResponse{Error: errMessage})
+}
+
+// Ok returns success.
+func Ok(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, data)
 }
 
-// Response201 returns success.
-func Response201(c *gin.Context, data interface{}) {
+// Created returns success.
+func Created(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusCreated, data)
 }
