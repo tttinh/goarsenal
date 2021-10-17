@@ -7,7 +7,7 @@ import (
 )
 
 type Service interface {
-	CreateWager(requesterID string, req CreateWagerRequest) error
+	CreateWager(req CreateWagerRequest) (*WagerResponse, error)
 }
 
 type Controller interface {

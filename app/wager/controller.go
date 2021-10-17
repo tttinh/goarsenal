@@ -2,7 +2,6 @@ package wager
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/tttinh/goarsenal/infra/errcode"
 	"github.com/tttinh/goarsenal/infra/transport/http"
 )
 
@@ -16,14 +15,14 @@ func (ctrl *controllerImpl) CreateWager(c *gin.Context) {
 
 	err = http.BindAndValid(c, &req)
 	if err != nil {
-		http.Response400(c, errcode.InvalidInput, nil)
+		http.Response400(c, nil)
 	}
 
-	err = ctrl.service.CreateWager("", req)
+	err, res := ctrl.service.CreateWager(req)
 
 	if err != nil {
-		http.Response400(c, errcode.InvalidInput, nil)
+		http.Response400(c, nil)
 	} else {
-		http.Response200(c, nil)
+		http.Response201(c, res)
 	}
 }

@@ -11,14 +11,17 @@ type loggingService struct {
 	Service
 }
 
-func (s *loggingService) CreateGroup(requesterID string, req CreateWagerRequest) (err error) {
+func (s *loggingService) CreateWager(req CreateWagerRequest) (res *WagerResponse, err error) {
 	defer func(begin time.Time) {
 		s.logger.Infow("create_wager",
-			"requester", requesterID,
 			"req", req,
-			"took", time.Since(begin),
+			"res", res,
 			"err", err,
+			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return s.Service.CreateWager(requesterID, req)
+
+	res, err = s.Service.CreateWager(req)
+
+	return res, err
 }

@@ -1,8 +1,8 @@
 package wager
 
 type CreateWagerRequest struct {
-	TotalWagerValue   int `json:"total_wager_value"`
-	Odds              int `json:"odds"`
-	SellingPercentage int `json:"selling_percentage"`
-	SellingPrice      int `json:"selling_price"`
+	TotalWagerValue   uint `json:"total_wager_value"`
+	Odds              uint `json:"odds"`
+	SellingPercentage uint `json:"selling_percentage"`
+	SellingPrice      uint `json:"selling_price"`
 }

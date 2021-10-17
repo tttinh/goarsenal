@@ -9,7 +9,7 @@ type serviceImpl struct {
 	wagerRepository repository.WagerRepository
 }
 
-func (s *serviceImpl) CreateWager(requesterID string, req CreateWagerRequest) error {
+func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error) {
 	wager := &entity.Wager{
 		TotalWagerValue:   req.TotalWagerValue,
 		Odds:              req.Odds,
@@ -17,5 +17,19 @@ func (s *serviceImpl) CreateWager(requesterID string, req CreateWagerRequest) er
 		SellingPrice:      req.SellingPrice,
 	}
 
-	return s.wagerRepository.AddWager(wager)
+	if err := s.wagerRepository.AddWager(wager); err != nil {
+		return nil, err
+	}
+
+	return &WagerResponse{
+		ID:                  wager.ID,
+		TotalWagerValue:     wager.TotalWagerValue,
+		Odds:                wager.Odds,
+		SellingPercentage:   wager.SellingPercentage,
+		SellingPrice:        wager.SellingPrice,
+		CurrentSellingPrice: wager.CurrentSellingPrice,
+		PercentageSold:      wager.PercentageSold,
+		AmountSold:          wager.AmountSold,
+		PlacedAt:            uint64(wager.PlacedAt.Unix()),
+	}, nil
 }

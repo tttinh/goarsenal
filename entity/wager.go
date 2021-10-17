@@ -5,13 +5,15 @@ import (
 )
 
 type Wager struct {
-	ID                int
-	TotalWagerValue   int
-	Odds              int
-	SellingPercentage int
-	SellingPrice      int
-	CreatedAt         time.Time
-	UpdatedAt         time.Time
+	ID                  uint `gorm:"primaryKey"`
+	TotalWagerValue     uint
+	Odds                uint
+	SellingPercentage   uint
+	SellingPrice        uint
+	CurrentSellingPrice uint
+	PercentageSold      uint
+	AmountSold          uint
+	PlacedAt            time.Time `gorm:"autoCreateTime"`
 }
 
 // TableName sets the table name for the entity.

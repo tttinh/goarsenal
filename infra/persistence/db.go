@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/tttinh/goarsenal/entity"
 	"github.com/tttinh/goarsenal/infra/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -31,6 +32,8 @@ func NewDB(appSetting config.Config) *gorm.DB {
 	if err != nil {
 		log.Fatalf("Failed to init database, err: %v", err)
 	}
+
+	db.AutoMigrate(&entity.Wager{})
 
 	return db
 }
