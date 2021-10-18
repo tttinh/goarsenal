@@ -11,8 +11,8 @@ type Wager struct {
 	SellingPercentage   uint32
 	SellingPrice        float32
 	CurrentSellingPrice float32
-	PercentageSold      *uint32
-	AmountSold          *uint32
+	PercentageSold      *float32
+	AmountSold          *float32
 	PlacedAt            time.Time `gorm:"autoCreateTime"`
 }
 

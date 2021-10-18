@@ -14,7 +14,7 @@ func NewPurchaseRepository(db *gorm.DB) *purchaseRepositoryImpl {
 	return &purchaseRepositoryImpl{db}
 }
 
-// Save creates a new purchase
-func (r *purchaseRepositoryImpl) Save(purchase *entity.Purchase) error {
+// Create creates a new purchase
+func (r *purchaseRepositoryImpl) Create(purchase *entity.Purchase) error {
 	return r.db.Create(purchase).Error
 }

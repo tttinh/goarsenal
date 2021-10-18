@@ -16,9 +16,14 @@ func NewWagerRepository(db *gorm.DB) *wagerRepositoryImpl {
 	return &wagerRepositoryImpl{db}
 }
 
-// Save creates a new wager.
-func (r *wagerRepositoryImpl) Save(wager *entity.Wager) error {
+// Create creates a new wager.
+func (r *wagerRepositoryImpl) Create(wager *entity.Wager) error {
 	return r.db.Create(wager).Error
+}
+
+// Update update an existing wager.
+func (r *wagerRepositoryImpl) Update(wager *entity.Wager) error {
+	return r.db.Save(wager).Error
 }
 
 // FindWagerByID finds a wager by its id.

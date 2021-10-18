@@ -26,7 +26,7 @@ func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error
 		CurrentSellingPrice: req.SellingPrice,
 	}
 
-	if err := s.wagerRepository.Save(wager); err != nil {
+	if err := s.wagerRepository.Create(wager); err != nil {
 		return nil, err
 	}
 
@@ -49,18 +49,39 @@ func (s *serviceImpl) BuyWager(wagerID uint32, req BuyWagerRequest) (*BuyWagerRe
 		return nil, err
 	}
 
+	if req.BuyingPrice > wager.CurrentSellingPrice {
+		return nil, errors.New("the buying_price is too high")
+	}
+
+	if wager.AmountSold == nil {
+		wager.AmountSold = &req.BuyingPrice
+	} else {
+		*wager.AmountSold += req.BuyingPrice
+	}
+
+	percentageSold := (*wager.AmountSold) / wager.SellingPrice * 100
+	wager.PercentageSold = &percentageSold
+	wager.CurrentSellingPrice -= req.BuyingPrice
+
 	purchase := &entity.Purchase{
 		BuyingPrice: req.BuyingPrice,
 		WagerID:     wagerID,
 		Wager:       wager,
 	}
 
-	if err := s.purchaseRepository.Save(purchase); err != nil {
+	if err := s.purchaseRepository.Create(purchase); err != nil {
+		return nil, err
+	}
+
+	if err := s.wagerRepository.Update(&wager); err != nil {
 		return nil, err
 	}
 
 	return &BuyWagerResponse{
-		ID: purchase.ID,
+		ID:          purchase.ID,
+		WagerID:     purchase.WagerID,
+		BuyingPrice: purchase.BuyingPrice,
+		BoughtAt:    uint64(purchase.BoughtAt.Unix()),
 	}, nil
 }
 
