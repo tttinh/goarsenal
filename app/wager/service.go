@@ -56,3 +56,26 @@ func (s *serviceImpl) BuyWager(wagerID uint32, req BuyWagerRequest) (*BuyWagerRe
 		ID: purchase.ID,
 	}, nil
 }
+
+func (s *serviceImpl) ListWagers(page uint32, limit uint32) (res []*WagerResponse, err error) {
+	wagers, err := s.wagerRepository.FindAll(page, limit)
+	if err != nil {
+		return
+	}
+
+	for _, wager := range wagers {
+		res = append(res, &WagerResponse{
+			ID:                  wager.ID,
+			TotalWagerValue:     wager.TotalWagerValue,
+			Odds:                wager.Odds,
+			SellingPercentage:   wager.SellingPercentage,
+			SellingPrice:        wager.SellingPrice,
+			CurrentSellingPrice: wager.CurrentSellingPrice,
+			PercentageSold:      wager.PercentageSold,
+			AmountSold:          wager.AmountSold,
+			PlacedAt:            uint64(wager.PlacedAt.Unix()),
+		})
+	}
+
+	return
+}

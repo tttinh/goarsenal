@@ -9,12 +9,13 @@ import (
 type Service interface {
 	CreateWager(req CreateWagerRequest) (*WagerResponse, error)
 	BuyWager(wagerID uint32, req BuyWagerRequest) (*BuyWagerResponse, error)
+	ListWagers(page uint32, limit uint32) ([]*WagerResponse, error)
 }
 
 type Controller interface {
 	CreateWager(c *gin.Context)
 	BuyWager(c *gin.Context)
-	// ListWager(c *gin.Context)
+	ListWagers(c *gin.Context)
 }
 
 func NewService(wagerRepo repository.WagerRepository, purchaseRepo repository.PurchaseRepository) Service {

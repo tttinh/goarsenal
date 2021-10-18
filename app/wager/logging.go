@@ -15,7 +15,6 @@ func (s *loggingService) CreateWager(req CreateWagerRequest) (res *WagerResponse
 	defer func(begin time.Time) {
 		s.logger.Infow("create_wager",
 			"req", req,
-			"res", res,
 			"err", err,
 			"took", time.Since(begin),
 		)
@@ -30,7 +29,6 @@ func (s *loggingService) BuyWager(wagerID uint32, req BuyWagerRequest) (res *Buy
 	defer func(begin time.Time) {
 		s.logger.Infow("buy_wager",
 			"req", req,
-			"res", res,
 			"err", err,
 			"took", time.Since(begin),
 		)
@@ -38,5 +36,20 @@ func (s *loggingService) BuyWager(wagerID uint32, req BuyWagerRequest) (res *Buy
 
 	res, err = s.Service.BuyWager(wagerID, req)
 
-	return res, err
+	return
+}
+
+func (s *loggingService) ListWagers(page uint32, limit uint32) (res []*WagerResponse, err error) {
+	defer func(begin time.Time) {
+		s.logger.Infow("list_wagers",
+			"page", page,
+			"limit", limit,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	res, err = s.Service.ListWagers(page, limit)
+
+	return
 }
