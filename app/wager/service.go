@@ -6,7 +6,8 @@ import (
 )
 
 type serviceImpl struct {
-	wagerRepository repository.WagerRepository
+	wagerRepository    repository.WagerRepository
+	purchaseRepository repository.PurchaseRepository
 }
 
 func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error) {
@@ -18,7 +19,7 @@ func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error
 		CurrentSellingPrice: req.SellingPrice,
 	}
 
-	if err := s.wagerRepository.AddWager(wager); err != nil {
+	if err := s.wagerRepository.Save(wager); err != nil {
 		return nil, err
 	}
 
@@ -32,5 +33,26 @@ func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error
 		PercentageSold:      wager.PercentageSold,
 		AmountSold:          wager.AmountSold,
 		PlacedAt:            uint64(wager.PlacedAt.Unix()),
+	}, nil
+}
+
+func (s *serviceImpl) BuyWager(wagerID uint32, req BuyWagerRequest) (*BuyWagerResponse, error) {
+	wager, err := s.wagerRepository.FindWagerByID(wagerID)
+	if err != nil {
+		return nil, err
+	}
+
+	purchase := &entity.Purchase{
+		BuyingPrice: req.BuyingPrice,
+		WagerID:     wagerID,
+		Wager:       wager,
+	}
+
+	if err := s.purchaseRepository.Save(purchase); err != nil {
+		return nil, err
+	}
+
+	return &BuyWagerResponse{
+		ID: purchase.ID,
 	}, nil
 }

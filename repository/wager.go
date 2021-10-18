@@ -5,27 +5,24 @@ import (
 	"gorm.io/gorm"
 )
 
-type WagerRepository interface {
-	AddWager(wager *entity.Wager) error
-}
-
 //var RepoErr = errors.New("unable to handle repository request")
 
 type wagerRepositoryImpl struct {
 	db *gorm.DB
 }
 
-func NewGroupRepository(db *gorm.DB) *wagerRepositoryImpl {
-	return &wagerRepositoryImpl{
-		db: db,
-	}
+// NewWagerRepository creates a new instance of Wager Repository
+func NewWagerRepository(db *gorm.DB) *wagerRepositoryImpl {
+	return &wagerRepositoryImpl{db}
 }
 
-// AddWager adds a new wager
-func (r *wagerRepositoryImpl) AddWager(wager *entity.Wager) error {
-	if err := r.db.Create(wager).Error; err != nil {
-		return err
-	}
+// FindWagerByID finds a wager by its id.
+func (r *wagerRepositoryImpl) FindWagerByID(wagerID uint32) (wager entity.Wager, err error) {
+	err = r.db.First(&wager, wagerID).Error
+	return
+}
 
-	return nil
+// Save creates a new wager
+func (r *wagerRepositoryImpl) Save(wager *entity.Wager) error {
+	return r.db.Create(wager).Error
 }

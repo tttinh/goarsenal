@@ -6,3 +6,7 @@ type CreateWagerRequest struct {
 	SellingPercentage uint32  `json:"selling_percentage"`
 	SellingPrice      float32 `json:"selling_price"`
 }
+
+type BuyWagerRequest struct {
+	BuyingPrice float32 `json:"buying_price"`
+}

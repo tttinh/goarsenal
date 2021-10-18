@@ -8,14 +8,17 @@ import (
 
 type Service interface {
 	CreateWager(req CreateWagerRequest) (*WagerResponse, error)
+	BuyWager(wagerID uint32, req BuyWagerRequest) (*BuyWagerResponse, error)
 }
 
 type Controller interface {
 	CreateWager(c *gin.Context)
+	BuyWager(c *gin.Context)
+	// ListWager(c *gin.Context)
 }
 
-func NewService(repo repository.WagerRepository) Service {
-	return &serviceImpl{repo}
+func NewService(wagerRepo repository.WagerRepository, purchaseRepo repository.PurchaseRepository) Service {
+	return &serviceImpl{wagerRepository: wagerRepo, purchaseRepository: purchaseRepo}
 }
 
 func NewLoggingService(logger log.Logger, s Service) Service {

@@ -27,20 +27,22 @@ func main() {
 	// Connecting DB.
 	db := persistence.NewDB(cfg)
 
+	// Create application logic services.
+	wagerRepository := repository.NewWagerRepository(db)
+	purchaseRepository := repository.NewPurchaseRepository(db)
+	var wagerService wager.Service
+	wagerService = wager.NewService(wagerRepository, purchaseRepository)
+	wagerService = wager.NewLoggingService(logger.With("component", "wager"), wagerService)
+
 	// Setup Gin.
 	gin.SetMode(cfg.Server.Mode)
-	//r := gin.Default()
 	r := gin.New()
 	httpLogger := logger.With("component", "http")
 	r.Use(httptransport.Logger(httpLogger))
 	r.Use(httptransport.Recovery(httpLogger))
 
-	// Create application logic services.
-	groupRepository := repository.NewGroupRepository(db)
-	var groupService wager.Service
-	groupService = wager.NewService(groupRepository)
-	groupService = wager.NewLoggingService(logger.With("component", "wager"), groupService)
-	wager.SetRoutes(r, groupService)
+	// Setup routes
+	wager.SetRoutes(r, wagerService)
 
 	// Start server.
 	run(logger, cfg, r)

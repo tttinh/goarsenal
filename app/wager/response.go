@@ -11,3 +11,10 @@ type WagerResponse struct {
 	AmountSold          *uint32 `json:"amount_sold"`
 	PlacedAt            uint64  `json:"placed_at"`
 }
+
+type BuyWagerResponse struct {
+	ID           uint32  `json:"id"`
+	WagerID      uint32  `json:"total_wager_value"`
+	SellingPrice float32 `json:"selling_price"`
+	BoughtAt     uint64  `json:"placed_at"`
+}
