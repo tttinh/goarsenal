@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type ServerConfig struct {
@@ -29,7 +30,7 @@ type Config struct {
 func NewConfig() Config {
 	var err error
 	v := viper.New()
-	v.SetConfigType("yaml")
+	v.SetConfigType("yml")
 	v.SetConfigName("application")
 	v.AddConfigPath(".")
 
@@ -37,13 +38,13 @@ func NewConfig() Config {
 
 	err = v.ReadInConfig()
 	if err != nil {
-		log.Fatal("error on loading configuration file")
+		log.Fatal("error on loading configuration file:", err)
 	}
 
 	var cfg Config
 	err = v.Unmarshal(&cfg)
 	if err != nil {
-		log.Fatal("error on unmarshalling configuration file")
+		log.Fatal("error on unmarshalling configuration file:", err)
 	}
 
 	return cfg

@@ -1,5 +1,5 @@
 database:
-  host: 127.0.0.1:3307 #DBHOST
+  host: 127.0.0.1:3306 #DBHOST
   name: goarsenal
   username: root #DBUSERNAME
   password: abc123 #DBPASSWORD

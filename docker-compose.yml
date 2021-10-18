@@ -1,12 +1,14 @@
 version: '3.9'
 services:
-  # service:
-  #   build: .
-  #   ports:
-  #     - '8080:8080'
-  # depends_on:
-  #   db:
-  #     condition: service_healthy
+  service:
+    build: .
+    environment:
+      DBHOST: db:3306
+    ports:
+      - '8080:8080'
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     image: mysql:latest
     command: '--default-authentication-plugin=mysql_native_password'
@@ -17,7 +19,7 @@ services:
       retries: 5
       start_period: 30s
     ports:
-      - 3307:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: abc123
       MYSQL_DATABASE: goarsenal
