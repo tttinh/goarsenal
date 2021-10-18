@@ -1,6 +1,8 @@
 package wager
 
 import (
+	"errors"
+
 	"github.com/tttinh/goarsenal/entity"
 	"github.com/tttinh/goarsenal/repository"
 )
@@ -11,6 +13,11 @@ type serviceImpl struct {
 }
 
 func (s *serviceImpl) CreateWager(req CreateWagerRequest) (*WagerResponse, error) {
+	threshold := float32(req.TotalWagerValue) * (float32(req.SellingPercentage) / 100)
+	if req.SellingPrice <= threshold {
+		return nil, errors.New("the selling_price is too low")
+	}
+
 	wager := &entity.Wager{
 		TotalWagerValue:     req.TotalWagerValue,
 		Odds:                req.Odds,
