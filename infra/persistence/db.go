@@ -33,7 +33,7 @@ func NewDB(appSetting config.Config) *gorm.DB {
 		log.Fatalf("Failed to init database, err: %v", err)
 	}
 
-	db.AutoMigrate(&entity.Wager{})
+	db.AutoMigrate(&entity.Wager{}, &entity.Purchase{})
 
 	return db
 }

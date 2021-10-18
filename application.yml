@@ -7,6 +7,6 @@ database:
 server:
   # debug or release
   mode: debug #SERVER_MODE
-  port: :8080 #SERVER_PORT
+  port: :8081 #SERVER_PORT
   read-timeout: 60 #SERVER_READTIMEOUT
   write-timeout: 60 #SERVER_WRITETIMEOUT
