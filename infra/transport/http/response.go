@@ -4,15 +4,21 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tttinh/goarsenal/infra/errorcode"
 )
 
 type errorResponse struct {
-	Error string
+	Error errorcode.Code `json:"error"`
+}
+
+// ServerError returns internal server error.
+func ServerError(c *gin.Context, ec errorcode.Code) {
+	c.JSON(http.StatusInternalServerError, errorResponse{Error: ec})
 }
 
 // BadRequest returns bad request error.
-func BadRequest(c *gin.Context, errMessage string) {
-	c.JSON(http.StatusBadRequest, errorResponse{Error: errMessage})
+func BadRequest(c *gin.Context, ec errorcode.Code) {
+	c.JSON(http.StatusBadRequest, errorResponse{Error: ec})
 }
 
 // Ok returns success.
