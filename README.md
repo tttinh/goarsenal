@@ -8,17 +8,18 @@ Another example of building REST service in Go.
 $ go get github.com/tttinh/goarsenal
 ```
 
-## How to run
+## Run the application using docker-compose
 
-### Required
+```
+$ cd $GOPATH/src/goarsenal
+$ docker-compose up -d
+```
 
-- Mysql
+## Run the application from source
 
-### Configuration
-
-You should modify `application.yaml`
-
-### Run
+- Start your MySQL server.
+- Modify `application.yml` with your database credentials.
+- Run the application using the following commands:
 
 ```
 $ cd $GOPATH/src/goarsenal
@@ -32,3 +33,7 @@ $ go run main.go
 - Using Zap for logging.
 - Using Gin for handling HTTP requests.
 - Using Viper for application configuration.
+
+## Notes
+
+- The API to get a list of wagers will return an empty array `[]` if no data found. And the default `page`, `limit` are 0 and 10 if no query parameters provided.
