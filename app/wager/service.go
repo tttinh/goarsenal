@@ -59,9 +59,9 @@ func (s *serviceImpl) BuyWager(wagerID uint32, req BuyWagerRequest) (*BuyWagerRe
 		*wager.AmountSold += req.BuyingPrice
 	}
 
-	percentageSold := (*wager.AmountSold) / wager.SellingPrice * 100
+	percentageSold := (*wager.AmountSold) / float32(wager.TotalWagerValue) * 100
 	wager.PercentageSold = &percentageSold
-	wager.CurrentSellingPrice -= req.BuyingPrice
+	wager.CurrentSellingPrice = float32(wager.TotalWagerValue) - (*wager.AmountSold)
 
 	purchase := &entity.Purchase{
 		BuyingPrice: req.BuyingPrice,
