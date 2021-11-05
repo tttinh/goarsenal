@@ -28,7 +28,6 @@ func NewDB(appSetting config.Config) *gorm.DB {
 	}
 
 	db, err := gorm.Open(mysql.Open(dsn), gormCfg)
-
 	if err != nil {
 		log.Fatalf("Failed to init database, err: %v", err)
 	}

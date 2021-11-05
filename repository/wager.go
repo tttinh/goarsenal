@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-//var RepoErr = errors.New("unable to handle repository request")
+// var RepoErr = errors.New("unable to handle repository request")
 
 type wagerRepositoryImpl struct {
 	db *gorm.DB
