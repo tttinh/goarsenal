@@ -15,6 +15,12 @@ $ cd $GOPATH/src/goarsenal
 $ docker-compose up -d
 ```
 
+To run and rebuild the service image, please run:
+
+```
+$ docker-compose up -d --build
+```
+
 ## Run the application from source
 
 - Start your MySQL server.
